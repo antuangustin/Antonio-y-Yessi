@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antonio & Yessica 💙</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d14;
+    --bg2: #111827;
+    --bg3: #1a2236;
+    --card: #151c2e;
+    --card2: #1e2940;
+    --border: #2a3a5c;
+    --accent: #4a7ab5;
+    --accent2: #7ba3d4;
+    --lavender: #8b7fc7;
+    --lavender2: #b3aee0;
+    --text: #e8edf5;
+    --text2: #9aafc8;
+    --text3: #5a7099;
+    --success: #4a9e8a;
+    --danger: #e05a6a;
+    --star: #f0c060;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+  h1,h2,h3 { font-family:'Cormorant Garamond',serif; }
+
+  /* BG DECORATION */
+  body::before {
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background: radial-gradient(ellipse at 20% 20%, rgba(74,122,181,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(139,127,199,0.08) 0%, transparent 60%);
+  }
+  .geo-bg { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .geo-bg span {
+    position:absolute; border:1px solid rgba(74,122,181,0.07); border-radius:50%;
+    animation: floatGeo 20s infinite linear;
+  }
+  .geo-bg span:nth-child(1) { width:300px; height:300px; top:-50px; left:-80px; animation-duration:25s; }
+  .geo-bg span:nth-child(2) { width:200px; height:200px; bottom:10%; right:-60px; animation-duration:30s; animation-delay:-10s; border-color:rgba(139,127,199,0.07); }
+  .geo-bg span:nth-child(3) { width:150px; height:150px; top:40%; left:5%; animation-duration:20s; animation-delay:-5s; }
+  @keyframes floatGeo { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-20px) rotate(180deg)} }
+
+  /* SCREENS */
+  .screen { display:none; position:relative; z-index:1; min-height:100vh; }
+  .screen.active { display:block; }
+
+  /* NOTIFICATIONS */
+  #notif-container { position:fixed; top:16px; right:16px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+  .notif {
+    background:var(--card2); border:1px solid var(--border); border-left:3px solid var(--lavender);
+    padding:12px 16px; border-radius:10px; font-size:13px; max-width:260px;
+    animation: slideIn .3s ease; box-shadow:0 4px 20px rgba(0,0,0,0.4);
+  }
+  @keyframes slideIn { from{transform:translateX(100px);opacity:0} to{transform:translateX(0);opacity:1} }
+
+  /* ===== LOGIN ===== */
+  #login-screen {
+    display:flex; align-items:center; justify-content:center; min-height:100vh;
+    padding:24px;
+  }
+  .login-box {
+    background:var(--card); border:1px solid var(--border); border-radius:24px;
+    padding:40px 32px; width:100%; max-width:380px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+    animation: fadeUp .6s ease;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  .login-title { font-size:36px; font-weight:300; text-align:center; margin-bottom:6px; color:var(--text); }
+  .login-subtitle { text-align:center; color:var(--text3); font-size:13px; margin-bottom:32px; }
+  .login-heart { text-align:center; font-size:28px; margin-bottom:24px; }
+  .form-group { margin-bottom:16px; }
+  .form-group label { display:block; font-size:12px; color:var(--text3); margin-bottom:6px; letter-spacing:.05em; text-transform:uppercase; }
+  .form-group input, .form-group select {
+    width:100%; padding:12px 16px; background:var(--bg3); border:1px solid var(--border);
+    border-radius:10px; color:var(--text); font-size:15px; font-family:'DM Sans',sans-serif;
+    transition:.2s; outline:none;
+  }
+  .form-group input:focus, .form-group select:focus { border-color:var(--accent); }
+  .btn-primary {
+    width:100%; padding:13px; background:linear-gradient(135deg,var(--accent),var(--lavender));
+    border:none; border-radius:10px; color:#fff; font-size:15px; font-family:'DM Sans',sans-serif;
+    font-weight:500; cursor:pointer; transition:.2s; margin-top:8px;
+  }
+  .btn-primary:hover { opacity:.9; transform:translateY(-1px); }
+  .login-error { color:var(--danger); font-size:13px; text-align:center; margin-top:10px; display:none; }
+
+  /* ===== HOME ===== */
+  #home-screen { padding:0; }
+  .home-header {
+    padding:40px 24px 32px; text-align:center;
+    background:linear-gradient(180deg, var(--bg2) 0%, transparent 100%);
+    border-bottom:1px solid var(--border);
+  }
+  .home-greeting { font-size:13px; color:var(--text3); margin-bottom:8px; letter-spacing:.1em; text-transform:uppercase; }
+  .home-title { font-size:42px; font-weight:300; color:var(--text); line-height:1.1; }
+  .home-title span { color:var(--lavender2); }
+  .welcome-msg {
+    margin:20px auto 0; max-width:500px; background:var(--card);
+    border:1px solid var(--border); border-radius:16px; padding:20px 24px;
+    font-size:15px; line-height:1.7; color:var(--text2); text-align:left;
+    border-left:3px solid var(--lavender);
+  }
+  .welcome-msg.hidden { display:none; }
+  .user-badge {
+    display:inline-flex; align-items:center; gap:8px; background:var(--card2);
+    border:1px solid var(--border); border-radius:20px; padding:6px 14px;
+    font-size:13px; color:var(--text2); margin-bottom:16px;
+  }
+  .logout-btn {
+    background:none; border:1px solid var(--border); color:var(--text3);
+    padding:6px 14px; border-radius:8px; font-size:12px; cursor:pointer;
+    transition:.2s; font-family:'DM Sans',sans-serif;
+  }
+  .logout-btn:hover { border-color:var(--accent); color:var(--text); }
+
+  .grid-section { padding:28px 20px; }
+  .grid-section-title { font-size:13px; color:var(--text3); letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px; }
+  .cards-grid {
+    display:grid; grid-template-columns:repeat(2,1fr); gap:14px;
+  }
+  @media(min-width:600px) { .cards-grid { grid-template-columns:repeat(3,1fr); } }
+  @media(min-width:900px) { .cards-grid { grid-template-columns:repeat(4,1fr); } }
+
+  .card-item {
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:20px 16px; cursor:pointer; transition:.25s; text-align:center;
+    position:relative; overflow:hidden;
+  }
+  .card-item::before {
+    content:''; position:absolute; inset:0; opacity:0; transition:.25s;
+    background:linear-gradient(135deg,rgba(74,122,181,0.15),rgba(139,127,199,0.15));
+  }
+  .card-item:hover { transform:translateY(-4px); border-color:var(--accent2); }
+  .card-item:hover::before { opacity:1; }
+  .card-icon { font-size:28px; margin-bottom:10px; }
+  .card-name { font-size:13px; font-weight:500; color:var(--text); margin-bottom:4px; }
+  .card-desc { font-size:11px; color:var(--text3); line-height:1.4; }
+  .card-badge {
+    position:absolute; top:8px; right:8px; background:var(--lavender);
+    color:#fff; font-size:10px; padding:2px 6px; border-radius:10px; display:none;
+  }
+  .card-badge.show { display:block; }
+
+  /* ===== BACK BUTTON ===== */
+  .back-btn {
+    display:inline-flex; align-items:center; gap:8px; background:none;
+    border:1px solid var(--border); color:var(--text2); padding:8px 16px;
+    border-radius:10px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif;
+    transition:.2s; margin-bottom:20px;
+  }
+  .back-btn:hover { border-color:var(--accent); color:var(--text); }
+
+  /* ===== SECTION SCREENS ===== */
+  .section-screen { padding:24px 20px; max-width:700px; margin:0 auto; }
+  .section-title { font-size:32px; font-weight:300; margin-bottom:6px; }
+  .section-sub { font-size:13px; color:var(--text3); margin-bottom:24px; }
+  .divider { border:none; border-top:1px solid var(--border); margin:20px 0; }
+
+  /* MOOD */
+  .mood-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+  .mood-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; text-align:center; }
+  .mood-card-title { font-size:12px; color:var(--text3); margin-bottom:12px; text-transform:uppercase; letter-spacing:.05em; }
+  .mood-display { font-size:40px; margin-bottom:8px; }
+  .mood-name { font-size:14px; color:var(--text2); }
+  .mood-select-title { font-size:16px; font-weight:500; margin-bottom:14px; }
+  .mood-options { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .mood-opt {
+    background:var(--card2); border:1px solid var(--border); border-radius:12px;
+    padding:10px 14px; cursor:pointer; transition:.2s; font-size:20px;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+  }
+  .mood-opt span { font-size:10px; color:var(--text3); }
+  .mood-opt:hover, .mood-opt.selected { border-color:var(--accent); background:var(--card); }
+  .mood-opt.selected { background:rgba(74,122,181,0.15); }
+
+  /* PHOTOS */
+  .photo-gallery { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:20px; }
+  @media(min-width:500px) { .photo-gallery { grid-template-columns:repeat(3,1fr); } }
+  .photo-item { aspect-ratio:1; border-radius:12px; overflow:hidden; position:relative; background:var(--card2); border:1px solid var(--border); }
+  .photo-item img { width:100%; height:100%; object-fit:cover; }
+  .photo-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--text3); }
+  .photo-del { position:absolute; top:6px; right:6px; background:rgba(0,0,0,0.7); border:none; color:#fff; border-radius:50%; width:24px; height:24px; cursor:pointer; font-size:12px; display:none; }
+  .photo-item:hover .photo-del { display:flex; align-items:center; justify-content:center; }
+  .upload-btn-area { text-align:center; }
+  #photo-upload { display:none; }
+
+  /* GAMES */
+  .games-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(min-width:500px) { .games-grid { grid-template-columns:repeat(3,1fr); } }
+  .game-card {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:18px 14px; text-align:center; cursor:pointer; transition:.2s;
+  }
+  .game-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+  .game-card .g-icon { font-size:26px; margin-bottom:8px; }
+  .game-card .g-name { font-size:12px; font-weight:500; }
+
+  /* GAME MODAL */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8);
+    z-index:1000; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.open { display:flex; }
+  .modal-box {
+    background:var(--bg2); border:1px solid var(--border); border-radius:20px;
+    padding:28px 24px; width:100%; max-width:500px; max-height:85vh; overflow-y:auto;
+    animation:fadeUp .3s ease;
+  }
+  .modal-title { font-size:26px; font-weight:300; margin-bottom:6px; }
+  .modal-sub { font-size:13px; color:var(--text3); margin-bottom:20px; }
+  .close-modal { float:right; background:none; border:none; color:var(--text3); font-size:20px; cursor:pointer; }
+
+  /* TRIVIA */
+  .trivia-q { font-size:18px; line-height:1.5; margin-bottom:20px; color:var(--text); }
+  .trivia-opts { display:flex; flex-direction:column; gap:10px; }
+  .trivia-opt {
+    background:var(--card2); border:1px solid var(--border); border-radius:10px;
+    padding:12px 16px; cursor:pointer; transition:.2s; text-align:left; font-size:14px; font-family:'DM Sans',sans-serif; color:var(--text);
+  }
+  .trivia-opt:hover { border-color:var(--accent); }
+  .trivia-opt.correct { border-color:var(--success); background:rgba(74,158,138,0.15); }
+  .trivia-opt.wrong { border-color:var(--danger); background:rgba(224,90,106,0.15); }
+  .trivia-score { text-align:center; font-size:28px; font-family:'Cormorant Garamond',serif; }
+  .trivia-progress { font-size:12px; color:var(--text3); margin-bottom:12px; }
+
+  /* RULETA */
+  .ruleta-canvas-wrap { display:flex; justify-content:center; margin-bottom:20px; position:relative; }
+  #ruleta-canvas { border-radius:50%; }
+  .ruleta-result { text-align:center; font-size:18px; color:var(--lavender2); min-height:40px; line-height:1.4; }
+
+  /* VERDAD O RETO */
+  .vor-btns { display:flex; gap:12px; margin-bottom:20px; }
+  .vor-btn { flex:1; padding:14px; border-radius:12px; border:none; font-size:15px; font-family:'DM Sans',sans-serif; cursor:pointer; font-weight:500; transition:.2s; }
+  .vor-verdad { background:rgba(74,122,181,0.2); color:var(--accent2); border:1px solid var(--accent); }
+  .vor-reto { background:rgba(139,127,199,0.2); color:var(--lavender2); border:1px solid var(--lavender); }
+  .vor-verdad:hover { background:rgba(74,122,181,0.35); }
+  .vor-reto:hover { background:rgba(139,127,199,0.35); }
+  .vor-result { text-align:center; font-size:20px; color:var(--text); min-height:60px; padding:16px; background:var(--card); border-radius:12px; line-height:1.5; }
+
+  /* QUIEN MAS PROBABLE */
+  .qmp-q { font-size:18px; text-align:center; margin-bottom:20px; }
+  .qmp-opts { display:flex; gap:12px; justify-content:center; }
+  .qmp-opt { flex:1; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card2); font-size:15px; cursor:pointer; font-family:'DM Sans',sans-serif; color:var(--text); transition:.2s; }
+  .qmp-opt:hover { border-color:var(--accent); }
+  .qmp-result { text-align:center; font-size:15px; color:var(--text2); min-height:40px; margin-top:12px; }
+
+  /* TEST COMPATIBILIDAD */
+  .compat-q { font-size:16px; margin-bottom:14px; }
+  .compat-opts { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+  .compat-opt { padding:10px 14px; border-radius:10px; border:1px solid var(--border); background:var(--card2); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); transition:.2s; text-align:left; }
+  .compat-opt:hover, .compat-opt.sel { border-color:var(--lavender); background:rgba(139,127,199,0.15); }
+  .compat-bar { height:12px; background:var(--card2); border-radius:6px; overflow:hidden; margin:10px 0; }
+  .compat-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--lavender)); border-radius:6px; transition:width .5s; }
+  .compat-pct { font-size:36px; font-family:'Cormorant Garamond',serif; text-align:center; color:var(--lavender2); }
+
+  /* DADO */
+  .dado-wrap { display:flex; justify-content:center; margin-bottom:20px; }
+  .dado {
+    width:100px; height:100px; background:linear-gradient(135deg,var(--accent),var(--lavender));
+    border-radius:20px; display:flex; align-items:center; justify-content:center;
+    font-size:50px; cursor:pointer; transition:.3s; box-shadow:0 8px 30px rgba(74,122,181,0.3);
+    user-select:none;
+  }
+  .dado:hover { transform:scale(1.05); }
+  .dado.rolling { animation:roll .5s ease; }
+  @keyframes roll { 0%{transform:rotate(0)} 25%{transform:rotate(90deg)} 50%{transform:rotate(180deg)} 75%{transform:rotate(270deg)} 100%{transform:rotate(360deg)} }
+  .dado-result { text-align:center; font-size:17px; color:var(--text2); min-height:50px; line-height:1.5; }
+
+  /* ADIVINA FOTO */
+  .foto-game-area { text-align:center; }
+  .foto-hint { font-size:14px; color:var(--text3); margin-bottom:12px; }
+  .foto-placeholder-game { width:100%; max-width:280px; height:200px; background:var(--card2); border:2px dashed var(--border); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:50px; margin:0 auto 16px; }
+  .foto-game-opts { display:flex; flex-direction:column; gap:8px; }
+  .foto-game-opt { padding:10px 14px; border-radius:10px; border:1px solid var(--border); background:var(--card2); cursor:pointer; font-family:'DM Sans',sans-serif; color:var(--text); transition:.2s; }
+  .foto-game-opt:hover { border-color:var(--accent); }
+
+  /* JUEGOS SORPRESA 1: MEMORY */
+  .memory-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; max-width:340px; margin:0 auto 16px; }
+  .mem-card {
+    aspect-ratio:1; background:linear-gradient(135deg,var(--accent),var(--lavender));
+    border-radius:10px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:24px; transition:.3s; user-select:none;
+  }
+  .mem-card.hidden-card { background:var(--card2); border:1px solid var(--border); }
+  .mem-card.hidden-card span { display:none; }
+  .mem-card.matched { background:rgba(74,158,138,0.3); border:1px solid var(--success); cursor:default; }
+  .memory-info { text-align:center; font-size:14px; color:var(--text3); }
+
+  /* JUEGO SORPRESA 2: RAPIDO */
+  .rapido-target { font-size:60px; text-align:center; margin:20px 0; cursor:pointer; transition:.1s; user-select:none; }
+  .rapido-target:active { transform:scale(0.9); }
+  .rapido-info { text-align:center; }
+  .rapido-score-wrap { display:flex; justify-content:center; gap:30px; margin-bottom:16px; }
+  .rapido-p { text-align:center; }
+  .rapido-p-name { font-size:12px; color:var(--text3); }
+  .rapido-p-score { font-size:28px; font-family:'Cormorant Garamond',serif; color:var(--lavender2); }
+  .rapido-timer { font-size:40px; font-family:'Cormorant Garamond',serif; text-align:center; color:var(--accent2); }
+
+  /* JUEGO SORPRESA 3: CATEGORIAS */
+  .categ-letters { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:16px; }
+  .categ-letter { width:36px; height:36px; background:var(--accent); color:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px; }
+  .categ-cats { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+  .categ-cat { display:flex; align-items:center; gap:10px; }
+  .categ-cat label { font-size:13px; color:var(--text3); width:120px; flex-shrink:0; }
+  .categ-cat input { flex:1; background:var(--card2); border:1px solid var(--border); border-radius:8px; padding:8px 10px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:13px; outline:none; }
+  .categ-cat input:focus { border-color:var(--accent); }
+
+  /* MOVIES */
+  .movie-add { display:flex; flex-direction:column; gap:10px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:20px; }
+  .movie-add-row { display:flex; gap:8px; }
+  .input-field {
+    flex:1; background:var(--bg3); border:1px solid var(--border); border-radius:8px;
+    padding:10px 12px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:14px; outline:none;
+  }
+  .input-field:focus { border-color:var(--accent); }
+  .stars-input { display:flex; gap:4px; }
+  .star-btn { background:none; border:none; font-size:22px; cursor:pointer; color:var(--text3); transition:.1s; }
+  .star-btn.on { color:var(--star); }
+  .movie-list { display:flex; flex-direction:column; gap:10px; }
+  .movie-item { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; }
+  .movie-item-title { font-size:15px; font-weight:500; margin-bottom:4px; }
+  .movie-item-meta { font-size:12px; color:var(--text3); margin-bottom:6px; }
+  .movie-item-stars { color:var(--star); font-size:14px; margin-bottom:4px; }
+  .movie-item-note { font-size:13px; color:var(--text2); }
+  .movie-item-del { background:none; border:none; color:var(--text3); cursor:pointer; float:right; font-size:16px; }
+  .reco-box { background:linear-gradient(135deg,rgba(74,122,181,0.15),rgba(139,127,199,0.15)); border:1px solid var(--border); border-radius:14px; padding:20px; text-align:center; margin-bottom:20px; }
+  .reco-movie { font-size:22px; font-family:'Cormorant Garamond',serif; color:var(--lavender2); margin-bottom:10px; min-height:36px; }
+  .reco-genre { font-size:13px; color:var(--text3); margin-bottom:14px; }
+  .btn-sec { padding:10px 18px; background:none; border:1px solid var(--border); border-radius:10px; color:var(--text2); font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; transition:.2s; }
+  .btn-sec:hover { border-color:var(--accent); color:var(--text); }
+  .btn-sm { padding:6px 12px; background:rgba(74,158,138,0.15); border:1px solid var(--success); border-radius:8px; color:var(--success); font-family:'DM Sans',sans-serif; font-size:12px; cursor:pointer; transition:.2s; }
+
+  /* DIARY */
+  .diary-write { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:20px; }
+  .diary-write textarea { width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:10px 12px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:14px; resize:vertical; min-height:80px; outline:none; }
+  .diary-write textarea:focus { border-color:var(--accent); }
+  .diary-entries { display:flex; flex-direction:column; gap:12px; }
+  .diary-entry { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; }
+  .diary-entry-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .diary-entry-author { font-size:12px; color:var(--lavender2); font-weight:500; }
+  .diary-entry-date { font-size:11px; color:var(--text3); }
+  .diary-entry-text { font-size:14px; color:var(--text2); line-height:1.6; }
+  .diary-entry-actions { display:flex; gap:8px; margin-top:8px; }
+  .act-btn { background:none; border:none; color:var(--text3); font-size:12px; cursor:pointer; padding:2px 6px; border-radius:4px; }
+  .act-btn:hover { color:var(--text); background:var(--card2); }
+  .diary-entry-edit { width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:14px; resize:vertical; min-height:60px; outline:none; margin-top:8px; display:none; }
+
+  /* WISHLIST */
+  .wish-add { display:flex; gap:8px; margin-bottom:20px; }
+  .wish-list { display:flex; flex-direction:column; gap:10px; }
+  .wish-item { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; display:flex; align-items:flex-start; gap:12px; }
+  .wish-check { width:20px; height:20px; accent-color:var(--lavender); cursor:pointer; flex-shrink:0; margin-top:2px; }
+  .wish-content { flex:1; }
+  .wish-text { font-size:14px; color:var(--text); margin-bottom:4px; }
+  .wish-text.done { text-decoration:line-through; color:var(--text3); }
+  .wish-meta { font-size:11px; color:var(--text3); }
+  .wish-del { background:none; border:none; color:var(--text3); cursor:pointer; font-size:16px; flex-shrink:0; }
+
+  /* STATS */
+  .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .stat-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; text-align:center; }
+  .stat-number { font-size:42px; font-family:'Cormorant Garamond',serif; color:var(--lavender2); line-height:1; margin-bottom:6px; }
+  .stat-label { font-size:12px; color:var(--text3); }
+
+  /* CARTA */
+  .carta-box { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:20px; }
+  .carta-locked { text-align:center; padding:30px 20px; }
+  .carta-lock-icon { font-size:50px; margin-bottom:16px; }
+  .carta-countdown { font-size:18px; color:var(--accent2); margin-bottom:8px; }
+  .carta-open-date { font-size:13px; color:var(--text3); }
+  .carta-content { font-size:15px; line-height:1.8; color:var(--text2); white-space:pre-wrap; }
+  .carta-write textarea { width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:12px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:14px; resize:vertical; min-height:140px; outline:none; }
+  .carta-write textarea:focus { border-color:var(--accent); }
+  .carta-date-row { display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap; }
+  .carta-date-row label { font-size:13px; color:var(--text3); }
+
+  /* ONLINE GAMES */
+  .online-game-result { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; margin-top:16px; min-height:60px; font-size:15px; color:var(--text2); line-height:1.5; display:none; }
+  .share-btn { display:flex; align-items:center; gap:8px; padding:10px 18px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.4); border-radius:10px; color:#25d166; font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; transition:.2s; margin-top:10px; }
+  .share-btn:hover { background:rgba(37,211,102,0.25); }
+
+  /* BTN STYLES */
+  .btn-primary-sm { padding:10px 20px; background:linear-gradient(135deg,var(--accent),var(--lavender)); border:none; border-radius:10px; color:#fff; font-size:14px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; transition:.2s; }
+  .btn-primary-sm:hover { opacity:.9; }
+  .btn-danger { padding:8px 14px; background:rgba(224,90,106,0.15); border:1px solid var(--danger); border-radius:8px; color:var(--danger); font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; }
+
+  /* EMPTY STATE */
+  .empty-state { text-align:center; padding:40px 20px; color:var(--text3); }
+  .empty-state .es-icon { font-size:40px; margin-bottom:12px; }
+  .empty-state p { font-size:14px; }
+
+  /* ONLINE GAMES SCREEN */
+  .online-games-grid { display:flex; flex-direction:column; gap:14px; }
+  .online-game-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; }
+  .og-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+  .og-icon { font-size:26px; }
+  .og-title { font-size:16px; font-weight:500; }
+  .og-desc { font-size:13px; color:var(--text3); margin-bottom:14px; }
+
+  textarea, input, select { -webkit-appearance:none; }
+</style>
+</head>
+<body>
+
+<div class="geo-bg"><span></span><span></span><span></span></div>
+<div id="notif-container"></div>
+
+<!-- LOGIN -->
+<div id="login-screen" class="screen active">
+  <div class="login-box">
+    <div class="login-heart">💙</div>
+    <h1 class="login-title">Antonio & Yessica</h1>
+    <p class="login-subtitle">Nuestra página especial</p>
+    <div class="form-group">
+      <label>Usuario</label>
+      <select id="login-user">
+        <option value="">Selecciona...</option>
+        <option value="Antonio">Antonio 💙</option>
+        <option value="Yessica">Yessica 💜</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••">
+    </div>
+    <button class="btn-primary" onclick="doLogin()">Entrar 💫</button>
+    <p class="login-error" id="login-error">Usuario o contraseña incorrectos</p>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="home-screen" class="screen">
+  <div class="home-header">
+    <div style="display:flex;justify-content:space-between;align-items:center;max-width:700px;margin:0 auto 16px;">
+      <div class="user-badge"><span id="home-user-icon">💙</span><span id="home-user-name">Antonio</span></div>
+      <button class="logout-btn" onclick="doLogout()">Salir</button>
+    </div>
+    <h1 class="home-title">Antonio <span>&</span> Yessica</h1>
+    <div class="welcome-msg" id="welcome-msg">
+      Amor, bienvenida a nuestra página virtual. Lo diseñé con mucho amor para ti y para nosotros. Espero que nos sea súper útil y podamos darle un buen uso juntos.<br><br>
+      Nos esperan juegos divertidos, momentos nuestros y más cositas lindas... Te amoo💗
+    </div>
+  </div>
+  <div class="grid-section">
+    <p class="grid-section-title">Nuestros apartados</p>
+    <div class="cards-grid">
+      <div class="card-item" onclick="goTo('mood')">
+        <div class="card-badge" id="badge-mood">nuevo</div>
+        <div class="card-icon">🌤️</div>
+        <div class="card-name">Nuestro Mood</div>
+        <div class="card-desc">¿Cómo están hoy?</div>
+      </div>
+      <div class="card-item" onclick="goTo('photos')">
+        <div class="card-badge" id="badge-photos">nuevo</div>
+        <div class="card-icon">📸</div>
+        <div class="card-name">Fotos</div>
+        <div class="card-desc">Su galería juntos</div>
+      </div>
+      <div class="card-item" onclick="goTo('games')">
+        <div class="card-icon">🎮</div>
+        <div class="card-name">Juegos</div>
+        <div class="card-desc">10 juegos para dos</div>
+      </div>
+      <div class="card-item" onclick="goTo('online-games')">
+        <div class="card-icon">📱</div>
+        <div class="card-name">Juegos Online</div>
+        <div class="card-desc">Jueguen a distancia</div>
+      </div>
+      <div class="card-item" onclick="goTo('movies')">
+        <div class="card-badge" id="badge-movies">nuevo</div>
+        <div class="card-icon">🎬</div>
+        <div class="card-name">Películas</div>
+        <div class="card-desc">Su historial cinéfilo</div>
+      </div>
+      <div class="card-item" onclick="goTo('diary')">
+        <div class="card-badge" id="badge-diary">nuevo</div>
+        <div class="card-icon">📝</div>
+        <div class="card-name">Diario</div>
+        <div class="card-desc">Sus notas y mensajes</div>
+      </div>
+      <div class="card-item" onclick="goTo('wishes')">
+        <div class="card-badge" id="badge-wishes">nuevo</div>
+        <div class="card-icon">🎯</div>
+        <div class="card-name">Lista de Deseos</div>
+        <div class="card-desc">Sus sueños juntos</div>
+      </div>
+      <div class="card-item" onclick="goTo('stats')">
+        <div class="card-icon">📊</div>
+        <div class="card-name">Estadísticas</div>
+        <div class="card-desc">Su resumen de pareja</div>
+      </div>
+      <div class="card-item" onclick="goTo('carta')">
+        <div class="card-badge" id="badge-carta">nuevo</div>
+        <div class="card-icon">🔒</div>
+        <div class="card-name">Carta al Futuro</div>
+        <div class="card-desc">Un mensaje especial</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOOD -->
+<div id="mood-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">🌤️ Nuestro Mood</h2>
+    <p class="section-sub">¿Cómo están hoy?</p>
+    <div class="mood-grid">
+      <div class="mood-card">
+        <div class="mood-card-title">💙 Antonio</div>
+        <div class="mood-display" id="mood-antonio">❓</div>
+        <div class="mood-name" id="mood-antonio-name">Sin actualizar</div>
+      </div>
+      <div class="mood-card">
+        <div class="mood-card-title">💜 Yessica</div>
+        <div class="mood-display" id="mood-yessica">❓</div>
+        <div class="mood-name" id="mood-yessica-name">Sin actualizar</div>
+      </div>
+    </div>
+    <hr class="divider">
+    <p class="mood-select-title">¿Cómo estás tú ahora?</p>
+    <div class="mood-options">
+      <div class="mood-opt" onclick="setMood('😊','Feliz')"><span style="font-size:26px">😊</span><span>Feliz</span></div>
+      <div class="mood-opt" onclick="setMood('🥰','Enamorado/a')"><span style="font-size:26px">🥰</span><span>Enamorado/a</span></div>
+      <div class="mood-opt" onclick="setMood('😴','Cansado/a')"><span style="font-size:26px">😴</span><span>Cansado/a</span></div>
+      <div class="mood-opt" onclick="setMood('😔','Triste')"><span style="font-size:26px">😔</span><span>Triste</span></div>
+      <div class="mood-opt" onclick="setMood('😤','Estresado/a')"><span style="font-size:26px">😤</span><span>Estresado/a</span></div>
+      <div class="mood-opt" onclick="setMood('🤩','Emocionado/a')"><span style="font-size:26px">🤩</span><span>Emocionado/a</span></div>
+      <div class="mood-opt" onclick="setMood('😌','Tranquilo/a')"><span style="font-size:26px">😌</span><span>Tranquilo/a</span></div>
+      <div class="mood-opt" onclick="setMood('🤒','Enfermo/a')"><span style="font-size:26px">🤒</span><span>Enfermo/a</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTOS -->
+<div id="photos-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">📸 Fotos</h2>
+    <p class="section-sub">Su galería especial</p>
+    <div class="photo-gallery" id="photo-gallery">
+      <div class="photo-item"><div class="photo-placeholder">🌟</div></div>
+      <div class="photo-item"><div class="photo-placeholder">💙</div></div>
+      <div class="photo-item"><div class="photo-placeholder">✨</div></div>
+    </div>
+    <div class="upload-btn-area" style="margin-top:16px">
+      <input type="file" id="photo-upload" accept="image/*" multiple onchange="addPhotos(event)">
+      <button class="btn-primary-sm" onclick="document.getElementById('photo-upload').click()">📷 Agregar fotos</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAMES -->
+<div id="games-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">🎮 Juegos</h2>
+    <p class="section-sub">Para jugar juntos en el mismo dispositivo</p>
+    <div class="games-grid">
+      <div class="game-card" onclick="openGame('trivia')"><div class="g-icon">🧠</div><div class="g-name">Trivia de Pareja</div></div>
+      <div class="game-card" onclick="openGame('ruleta')"><div class="g-icon">🎡</div><div class="g-name">Ruleta de Planes</div></div>
+      <div class="game-card" onclick="openGame('adivina')"><div class="g-icon">🖼️</div><div class="g-name">Adivina la Foto</div></div>
+      <div class="game-card" onclick="openGame('vor')"><div class="g-icon">🎭</div><div class="g-name">Verdad o Reto</div></div>
+      <div class="game-card" onclick="openGame('qmp')"><div class="g-icon">🤔</div><div class="g-name">¿Quién más probable?</div></div>
+      <div class="game-card" onclick="openGame('compat')"><div class="g-icon">💞</div><div class="g-name">Test Compatibilidad</div></div>
+      <div class="game-card" onclick="openGame('dado')"><div class="g-icon">🎲</div><div class="g-name">Dado de Actividades</div></div>
+      <div class="game-card" onclick="openGame('memory')"><div class="g-icon">🃏</div><div class="g-name">Memoria de Pareja</div></div>
+      <div class="game-card" onclick="openGame('rapido')"><div class="g-icon">⚡</div><div class="g-name">¡El más Rápido!</div></div>
+      <div class="game-card" onclick="openGame('categorias')"><div class="g-icon">📋</div><div class="g-name">Basta de Pareja</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ONLINE GAMES -->
+<div id="online-games-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">📱 Juegos Online</h2>
+    <p class="section-sub">Jueguen desde sus propios dispositivos y comparen por WhatsApp</p>
+    <div class="online-games-grid">
+      <!-- OG1: Yo nunca nunca -->
+      <div class="online-game-card">
+        <div class="og-header"><span class="og-icon">🍷</span><span class="og-title">Yo Nunca Nunca Romántico</span></div>
+        <div class="og-desc">Toca para ver una frase. Responde sinceramente y comparte tu respuesta.</div>
+        <button class="btn-primary-sm" onclick="playOG('nunca')">Nueva frase</button>
+        <div class="online-game-result" id="og-nunca-result"></div>
+        <button class="share-btn" id="og-nunca-share" style="display:none" onclick="shareResult('og-nunca-result')">📤 Compartir por WhatsApp</button>
+      </div>
+      <!-- OG2: Esto o Aquello -->
+      <div class="online-game-card">
+        <div class="og-header"><span class="og-icon">⚖️</span><span class="og-title">Esto o Aquello</span></div>
+        <div class="og-desc">Elige entre dos opciones. Comparte tu respuesta y descubran si coinciden.</div>
+        <button class="btn-primary-sm" onclick="playOG('eoa')">Nueva pregunta</button>
+        <div class="online-game-result" id="og-eoa-result"></div>
+        <div id="og-eoa-btns" style="display:none;gap:8px;margin-top:10px;display:none">
+          <button class="btn-sec" id="og-eoa-a" onclick="chooseEOA(0)"></button>
+          <button class="btn-sec" id="og-eoa-b" onclick="chooseEOA(1)"></button>
+        </div>
+        <button class="share-btn" id="og-eoa-share" style="display:none" onclick="shareResult('og-eoa-result')">📤 Compartir por WhatsApp</button>
+      </div>
+      <!-- OG3: Completa la frase -->
+      <div class="online-game-card">
+        <div class="og-header"><span class="og-icon">✍️</span><span class="og-title">Completa la Frase</span></div>
+        <div class="og-desc">Completa la frase y envíasela a tu pareja para ver qué dice.</div>
+        <button class="btn-primary-sm" onclick="playOG('completa')">Nueva frase</button>
+        <div class="online-game-result" id="og-completa-result" style="display:none"></div>
+        <input class="input-field" id="og-completa-input" placeholder="Tu respuesta..." style="display:none;margin-top:10px">
+        <button class="share-btn" id="og-completa-share" style="display:none" onclick="shareCompletaResult()">📤 Compartir por WhatsApp</button>
+      </div>
+      <!-- OG4: Preguntas profundas -->
+      <div class="online-game-card">
+        <div class="og-header"><span class="og-icon">💭</span><span class="og-title">Preguntas Profundas</span></div>
+        <div class="og-desc">Una pregunta reflexiva. Ambos responden por separado y luego comparan.</div>
+        <button class="btn-primary-sm" onclick="playOG('profunda')">Nueva pregunta</button>
+        <div class="online-game-result" id="og-profunda-result" style="display:none"></div>
+        <input class="input-field" id="og-profunda-input" placeholder="Tu respuesta..." style="display:none;margin-top:10px">
+        <button class="share-btn" id="og-profunda-share" style="display:none" onclick="shareProfundaResult()">📤 Compartir por WhatsApp</button>
+      </div>
+      <!-- OG5: Reto del día -->
+      <div class="online-game-card">
+        <div class="og-header"><span class="og-icon">🌟</span><span class="og-title">Reto del Día</span></div>
+        <div class="og-desc">Un reto especial para hacer hoy. Toma captura cuando lo completes.</div>
+        <button class="btn-primary-sm" onclick="playOG('reto')">Ver reto</button>
+        <div class="online-game-result" id="og-reto-result"></div>
+        <button class="share-btn" id="og-reto-share" style="display:none" onclick="shareResult('og-reto-result')">📤 Compartir por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOVIES -->
+<div id="movies-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">🎬 Películas & Series</h2>
+    <p class="section-sub">Su historial cinéfilo juntos</p>
+    <div class="reco-box">
+      <p style="font-size:13px;color:var(--text3);margin-bottom:10px">¿Qué ven hoy?</p>
+      <div class="reco-movie" id="reco-movie">Presiona el botón ✨</div>
+      <div class="reco-genre" id="reco-genre"></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-primary-sm" onclick="getRecommendation()">🎲 Sorpréndeme</button>
+        <button class="btn-sm" id="reco-add-btn" style="display:none" onclick="addRecoToList()">Ya la vimos ✅</button>
+      </div>
+    </div>
+    <div class="movie-add">
+      <p style="font-size:14px;font-weight:500;margin-bottom:6px">Agregar manualmente</p>
+      <input class="input-field" id="movie-title" placeholder="Título de la película/serie">
+      <div class="movie-add-row">
+        <input class="input-field" id="movie-note" placeholder="Nota corta (opcional)">
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="stars-input" id="movie-stars-input">
+          <button class="star-btn" onclick="setStar(1)">★</button>
+          <button class="star-btn" onclick="setStar(2)">★</button>
+          <button class="star-btn" onclick="setStar(3)">★</button>
+          <button class="star-btn" onclick="setStar(4)">★</button>
+          <button class="star-btn" onclick="setStar(5)">★</button>
+        </div>
+        <button class="btn-primary-sm" onclick="addMovie()">Agregar</button>
+      </div>
+    </div>
+    <div class="movie-list" id="movie-list">
+      <div class="empty-state"><div class="es-icon">🎬</div><p>Aún no han agregado películas</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- DIARY -->
+<div id="diary-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">📝 Diario Compartido</h2>
+    <p class="section-sub">Sus notas y mensajes especiales</p>
+    <div class="diary-write">
+      <p style="font-size:14px;font-weight:500;margin-bottom:10px">Escribir nota</p>
+      <textarea id="diary-input" placeholder="¿Qué quieres compartir hoy?"></textarea>
+      <div style="margin-top:10px;text-align:right">
+        <button class="btn-primary-sm" onclick="addDiaryEntry()">Publicar 💌</button>
+      </div>
+    </div>
+    <div class="diary-entries" id="diary-entries">
+      <div class="empty-state"><div class="es-icon">📝</div><p>El diario está vacío, ¡sean los primeros en escribir!</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- WISHES -->
+<div id="wishes-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">🎯 Lista de Deseos</h2>
+    <p class="section-sub">Sus sueños por cumplir juntos</p>
+    <div class="wish-add">
+      <input class="input-field" id="wish-input" placeholder="Un deseo para los dos...">
+      <button class="btn-primary-sm" onclick="addWish()">Agregar</button>
+    </div>
+    <div class="wish-list" id="wish-list">
+      <div class="empty-state"><div class="es-icon">🎯</div><p>¡Agreguen sus primeros deseos!</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div id="stats-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">📊 Estadísticas</h2>
+    <p class="section-sub">Su resumen de pareja</p>
+    <div class="stats-grid" id="stats-grid"></div>
+  </div>
+</div>
+
+<!-- CARTA -->
+<div id="carta-screen" class="screen">
+  <div class="section-screen">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <h2 class="section-title">🔒 Carta al Futuro</h2>
+    <p class="section-sub">Un mensaje especial para abrir en el momento indicado</p>
+    <div class="carta-box" id="carta-box"></div>
+  </div>
+</div>
+
+<!-- GAME MODAL -->
+<div class="modal-overlay" id="game-modal">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeGame()">✕</button>
+    <h2 class="modal-title" id="modal-title"></h2>
+    <p class="modal-sub" id="modal-sub"></p>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const USERS = { Antonio: 'yessimiamor', Yessica: 'lamashermosa' };
+let currentUser = null;
+let movieStars = 0;
+let currentReco = null;
+let eoa_current = null;
+
+function ls(k,d=null){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d} }
+function lss(k,v){ localStorage.setItem(k,JSON.stringify(v)); }
+
+// ===== LOGIN =====
+function doLogin(){
+  const u=document.getElementById('login-user').value;
+  const p=document.getElementById('login-pass').value;
+  const err=document.getElementById('login-error');
+  if(!u){err.style.display='block';err.textContent='Selecciona un usuario';return;}
+  if(USERS[u]!==p){err.style.display='block';err.textContent='Contraseña incorrecta';return;}
+  currentUser=u;
+  err.style.display='none';
+  document.getElementById('login-pass').value='';
+  lss('ay_session',u);
+  showHome();
+}
+function doLogout(){
+  currentUser=null;
+  localStorage.removeItem('ay_session');
+  showScreen('login-screen');
+  document.getElementById('login-user').value='';
+}
+window.addEventListener('load',()=>{
+  const s=ls('ay_session');
+  if(s&&USERS[s]){currentUser=s;showHome();}
+});
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+// ===== NAVIGATION =====
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function showHome(){
+  const u=currentUser;
+  document.getElementById('home-user-name').textContent=u;
+  document.getElementById('home-user-icon').textContent=u==='Yessica'?'💜':'💙';
+  document.getElementById('welcome-msg').classList.toggle('hidden',u==='Antonio');
+  checkBadges();
+  showScreen('home-screen');
+}
+function goHome(){ showHome(); }
+function goTo(s){
+  clearBadge(s);
+  if(s==='mood') loadMood();
+  if(s==='movies') loadMovies();
+  if(s==='diary') loadDiary();
+  if(s==='wishes') loadWishes();
+  if(s==='stats') loadStats();
+  if(s==='carta') loadCarta();
+  if(s==='photos') loadPhotos();
+  showScreen(s+'-screen');
+}
+
+// ===== BADGES =====
+function setBadge(key){ const b=ls('ay_badges',{}); b[key]=true; lss('ay_badges',b); }
+function clearBadge(key){ const b=ls('ay_badges',{}); delete b[key]; lss('ay_badges',b); }
+function checkBadges(){ const b=ls('ay_badges',{}); Object.keys(b).forEach(k=>{ const el=document.getElementById('badge-'+k); if(el)el.classList.toggle('show',!!b[k]); }); }
+
+// ===== NOTIFICATIONS =====
+function notify(msg){ const c=document.getElementById('notif-container'); const d=document.createElement('div'); d.className='notif'; d.textContent=msg; c.appendChild(d); setTimeout(()=>d.remove(),4000); }
+
+// ===== MOOD =====
+function loadMood(){
+  const moods=ls('ay_moods',{});
+  ['Antonio','Yessica'].forEach(u=>{
+    const m=moods[u];
+    document.getElementById('mood-'+u.toLowerCase()).textContent=m?m.emoji:'❓';
+    document.getElementById('mood-'+u.toLowerCase()+'-name').textContent=m?m.name:'Sin actualizar';
+  });
+}
+function setMood(emoji,name){
+  const moods=ls('ay_moods',{});
+  moods[currentUser]={emoji,name};
+  lss('ay_moods',moods);
+  loadMood();
+  setBadge('mood');
+  notify(`${currentUser} actualizó su mood a ${emoji} ${name}`);
+}
+
+// ===== PHOTOS =====
+function loadPhotos(){
+  const photos=ls('ay_photos',[]);
+  const gallery=document.getElementById('photo-gallery');
+  gallery.innerHTML='';
+  if(photos.length===0){
+    ['🌟','💙','✨'].forEach(e=>{
+      gallery.innerHTML+=`<div class="photo-item"><div class="photo-placeholder">${e}</div></div>`;
+    });
+  } else {
+    photos.forEach((src,i)=>{
+      gallery.innerHTML+=`<div class="photo-item"><img src="${src}" alt="foto"><button class="photo-del" onclick="deletePhoto(${i})">✕</button></div>`;
+    });
+  }
+}
+function addPhotos(e){
+  const files=[...e.target.files];
+  const photos=ls('ay_photos',[]);
+  let loaded=0;
+  files.forEach(f=>{
+    const r=new FileReader();
+    r.onload=ev=>{
+      photos.push(ev.target.result);
+      loaded++;
+      if(loaded===files.length){ lss('ay_photos',photos); loadPhotos(); setBadge('photos'); notify('📸 Se agregaron '+files.length+' foto(s)'); }
+    };
+    r.readAsDataURL(f);
+  });
+  e.target.value='';
+}
+function deletePhoto(i){
+  const photos=ls('ay_photos',[]);
+  photos.splice(i,1);
+  lss('ay_photos',photos);
+  loadPhotos();
+}
+
+// ===== MOVIES =====
+const RECOS=[
+  {t:'La La Land',g:'Romance / Musical'},
+  {t:'Crazy, Stupid, Love',g:'Comedia romántica'},
+  {t:'El Diario de Noa',g:'Drama romántico'},
+  {t:'Cuestión de Tiempo',g:'Comedia / Fantasía'},
+  {t:'A todos los chicos de los que me enamoré',g:'Romance / Comedia'},
+  {t:'Eternal Sunshine of the Spotless Mind',g:'Drama / Romance'},
+  {t:'Propuesta Indecente',g:'Drama romántico'},
+  {t:'Antes del Amanecer',g:'Romance / Drama'},
+  {t:'Bridget Jones',g:'Comedia romántica'},
+  {t:'When Harry Met Sally',g:'Comedia romántica'},
+  {t:'Your Name',g:'Anime / Romance'},
+  {t:'Destino: Wedding',g:'Comedia romántica'},
+  {t:'Dos Extraños',g:'Drama / Romance'},
+  {t:'Hitch: El Consejero del Amor',g:'Comedia romántica'},
+  {t:'The Notebook',g:'Drama romántico'},
+];
+function getRecommendation(){
+  const movies=ls('ay_movies',[]);
+  const watched=movies.map(m=>m.title.toLowerCase());
+  const unwatched=RECOS.filter(r=>!watched.includes(r.t.toLowerCase()));
+  const pool=unwatched.length>0?unwatched:RECOS;
+  currentReco=pool[Math.floor(Math.random()*pool.length)];
+  document.getElementById('reco-movie').textContent=currentReco.t;
+  document.getElementById('reco-genre').textContent=currentReco.g;
+  document.getElementById('reco-add-btn').style.display='inline-block';
+}
+function addRecoToList(){
+  if(!currentReco)return;
+  document.getElementById('movie-title').value=currentReco.t;
+  currentReco=null;
+  document.getElementById('reco-add-btn').style.display='none';
+}
+function setStar(n){
+  movieStars=n;
+  document.querySelectorAll('#movie-stars-input .star-btn').forEach((b,i)=>b.classList.toggle('on',i<n));
+}
+function addMovie(){
+  const title=document.getElementById('movie-title').value.trim();
+  if(!title)return;
+  const movies=ls('ay_movies',[]);
+  movies.unshift({title,note:document.getElementById('movie-note').value.trim(),stars:movieStars,date:new Date().toLocaleDateString('es-ES'),by:currentUser});
+  lss('ay_movies',movies);
+  document.getElementById('movie-title').value='';
+  document.getElementById('movie-note').value='';
+  setStar(0);
+  loadMovies();
+  setBadge('movies');
+  notify('🎬 '+title+' agregada a la lista');
+}
+function loadMovies(){
+  const movies=ls('ay_movies',[]);
+  const list=document.getElementById('movie-list');
+  if(movies.length===0){list.innerHTML='<div class="empty-state"><div class="es-icon">🎬</div><p>Aún no han agregado películas</p></div>';return;}
+  list.innerHTML=movies.map((m,i)=>`
+    <div class="movie-item">
+      <button class="movie-item-del" onclick="deleteMovie(${i})">✕</button>
+      <div class="movie-item-title">${m.title}</div>
+      <div class="movie-item-meta">Agregada por ${m.by} · ${m.date}</div>
+      ${m.stars?`<div class="movie-item-stars">${'★'.repeat(m.stars)}${'☆'.repeat(5-m.stars)}</div>`:''}
+      ${m.note?`<div class="movie-item-note">${m.note}</div>`:''}
+    </div>`).join('');
+}
+function deleteMovie(i){
+  const movies=ls('ay_movies',[]);
+  movies.splice(i,1);
+  lss('ay_movies',movies);
+  loadMovies();
+}
+
+// ===== DIARY =====
+function addDiaryEntry(){
+  const text=document.getElementById('diary-input').value.trim();
+  if(!text)return;
+  const entries=ls('ay_diary',[]);
+  entries.unshift({text,by:currentUser,date:new Date().toLocaleDateString('es-ES'),time:new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}),id:Date.now()});
+  lss('ay_diary',entries);
+  document.getElementById('diary-input').value='';
+  loadDiary();
+  setBadge('diary');
+  notify('📝 '+currentUser+' escribió una nota');
+}
+function loadDiary(){
+  const entries=ls('ay_diary',[]);
+  const container=document.getElementById('diary-entries');
+  if(entries.length===0){container.innerHTML='<div class="empty-state"><div class="es-icon">📝</div><p>El diario está vacío, ¡sean los primeros en escribir!</p></div>';return;}
+  container.innerHTML=entries.map((e,i)=>`
+    <div class="diary-entry" id="entry-${e.id}">
+      <div class="diary-entry-header">
+        <span class="diary-entry-author">${e.by==='Yessica'?'💜':'💙'} ${e.by}</span>
+        <span class="diary-entry-date">${e.date} ${e.time||''}</span>
+      </div>
+      <div class="diary-entry-text" id="etext-${e.id}">${e.text}</div>
+      <textarea class="diary-entry-edit" id="eedit-${e.id}">${e.text}</textarea>
+      <div class="diary-entry-actions">
+        <button class="act-btn" onclick="toggleEdit(${e.id},${i})">✏️ Editar</button>
+        <button class="act-btn" onclick="deleteDiary(${i})">🗑️ Borrar</button>
+      </div>
+    </div>`).join('');
+}
+function toggleEdit(id,i){
+  const textEl=document.getElementById('etext-'+id);
+  const editEl=document.getElementById('eedit-'+id);
+  if(editEl.style.display==='block'){
+    const entries=ls('ay_diary',[]);
+    entries[i].text=editEl.value;
+    lss('ay_diary',entries);
+    textEl.textContent=editEl.value;
+    editEl.style.display='none';
+    textEl.style.display='block';
+  } else {
+    editEl.style.display='block';
+    textEl.style.display='none';
+  }
+}
+function deleteDiary(i){
+  const entries=ls('ay_diary',[]);
+  entries.splice(i,1);
+  lss('ay_diary',entries);
+  loadDiary();
+}
+
+// ===== WISHES =====
+function addWish(){
+  const text=document.getElementById('wish-input').value.trim();
+  if(!text)return;
+  const wishes=ls('ay_wishes',[]);
+  wishes.unshift({text,by:currentUser,date:new Date().toLocaleDateString('es-ES'),done:false,doneDate:null,id:Date.now()});
+  lss('ay_wishes',wishes);
+  document.getElementById('wish-input').value='';
+  loadWishes();
+  setBadge('wishes');
+}
+function loadWishes(){
+  const wishes=ls('ay_wishes',[]);
+  const container=document.getElementById('wish-list');
+  if(wishes.length===0){container.innerHTML='<div class="empty-state"><div class="es-icon">🎯</div><p>¡Agreguen sus primeros deseos!</p></div>';return;}
+  container.innerHTML=wishes.map((w,i)=>`
+    <div class="wish-item">
+      <input type="checkbox" class="wish-check" ${w.done?'checked':''} onchange="toggleWish(${i},this.checked)">
+      <div class="wish-content">
+        <div class="wish-text ${w.done?'done':''}">${w.text}</div>
+        <div class="wish-meta">Por ${w.by} · ${w.date}${w.done&&w.doneDate?' · ✅ Cumplido el '+w.doneDate:''}</div>
+      </div>
+      <button class="wish-del" onclick="deleteWish(${i})">✕</button>
+    </div>`).join('');
+}
+function toggleWish(i,done){
+  const wishes=ls('ay_wishes',[]);
+  wishes[i].done=done;
+  wishes[i].doneDate=done?new Date().toLocaleDateString('es-ES'):null;
+  lss('ay_wishes',wishes);
+  loadWishes();
+  if(done) notify('🎯 ¡Deseo cumplido! '+wishes[i].text);
+}
+function deleteWish(i){
+  const wishes=ls('ay_wishes',[]);
+  wishes.splice(i,1);
+  lss('ay_wishes',wishes);
+  loadWishes();
+}
+
+// ===== STATS =====
+function loadStats(){
+  const movies=ls('ay_movies',[]).length;
+  const diary=ls('ay_diary',[]).length;
+  const wishes=ls('ay_wishes',[]);
+  const done=wishes.filter(w=>w.done).length;
+  const photos=ls('ay_photos',[]).length;
+  const start=ls('ay_start',null);
+  if(!start) lss('ay_start',Date.now());
+  const days=Math.floor((Date.now()-ls('ay_start',Date.now()))/(1000*60*60*24))+1;
+  document.getElementById('stats-grid').innerHTML=`
+    <div class="stat-card"><div class="stat-number">${days}</div><div class="stat-label">Días juntos en la app</div></div>
+    <div class="stat-card"><div class="stat-number">${movies}</div><div class="stat-label">Películas vistas</div></div>
+    <div class="stat-card"><div class="stat-number">${diary}</div><div class="stat-label">Notas escritas</div></div>
+    <div class="stat-card"><div class="stat-number">${wishes.length}</div><div class="stat-label">Deseos totales</div></div>
+    <div class="stat-card"><div class="stat-number">${done}</div><div class="stat-label">Deseos cumplidos</div></div>
+    <div class="stat-card"><div class="stat-number">${photos}</div><div class="stat-label">Fotos subidas</div></div>
+  `;
+}
+
+// ===== CARTA =====
+function loadCarta(){
+  const carta=ls('ay_carta',null);
+  const box=document.getElementById('carta-box');
+  if(!carta){
+    box.innerHTML=`
+      <p style="font-size:15px;font-weight:500;margin-bottom:14px">Escriban su carta al futuro</p>
+      <div class="carta-write">
+        <textarea id="carta-text" placeholder="Querido futuro nosotros..."></textarea>
+        <div class="carta-date-row">
+          <label>Abrir el:</label>
+          <input type="date" class="input-field" id="carta-date" style="flex:1;max-width:180px">
+          <button class="btn-primary-sm" onclick="saveCarta()">Guardar 🔒</button>
+        </div>
+      </div>`;
+  } else {
+    const now=new Date();
+    const open=new Date(carta.openDate);
+    if(now>=open){
+      box.innerHTML=`<div style="text-align:center;margin-bottom:16px;font-size:13px;color:var(--success)">✅ ¡Llegó el momento de leerla!</div><div class="carta-content">${carta.text}</div>
+      <div style="text-align:center;margin-top:16px"><button class="btn-danger" onclick="deleteCarta()">Escribir nueva carta</button></div>`;
+    } else {
+      const diff=Math.ceil((open-now)/(1000*60*60*24));
+      box.innerHTML=`<div class="carta-locked"><div class="carta-lock-icon">🔒</div><div class="carta-countdown">Faltan ${diff} día(s)</div><div class="carta-open-date">Se abre el ${open.toLocaleDateString('es-ES')}</div></div>`;
+    }
+  }
+}
+function saveCarta(){
+  const text=document.getElementById('carta-text').value.trim();
+  const date=document.getElementById('carta-date').value;
+  if(!text||!date){notify('Por favor completa el mensaje y la fecha');return;}
+  lss('ay_carta',{text,openDate:date,by:currentUser});
+  setBadge('carta');
+  loadCarta();
+  notify('🔒 Carta guardada para el '+new Date(date).toLocaleDateString('es-ES'));
+}
+function deleteCarta(){
+  localStorage.removeItem('ay_carta');
+  loadCarta();
+}
+
+// ===== GAMES =====
+const TRIVIA_QS=[
+  {q:'¿Cuál es el idioma del amor según la ciencia?',opts:['Palabras de afirmación','Toques físicos','Actos de servicio','Tiempo de calidad'],a:0},
+  {q:'¿Cuántas veces al día en promedio una pareja feliz se ríe juntos?',opts:['2 veces','5 veces','8 veces','10 veces'],a:2},
+  {q:'¿Qué actividad fortalece más el vínculo en pareja?',opts:['Ver series','Cocinar juntos','Salir de viaje','Hacer ejercicio'],a:1},
+  {q:'¿Cuál es la clave principal de una relación duradera?',opts:['El dinero','La comunicación','El físico','La suerte'],a:1},
+  {q:'¿En qué mes se dan más rupturas según estudios?',opts:['Enero','Febrero','Agosto','Diciembre'],a:0},
+  {q:'¿Cuántos abrazos al día necesita una persona para ser feliz?',opts:['2','4','8','12'],a:2},
+  {q:'¿Qué hace que una persona sea más atractiva?',opts:['El humor','El dinero','La fama','La inteligencia'],a:0},
+  {q:'¿Qué nombre recibe el miedo a enamorarse?',opts:['Filofobia','Agorafobia','Xenofobia','Claustrofobia'],a:0},
+  {q:'¿Cuánto tiempo tarda una persona promedio en enamorarse?',opts:['1 semana','1 mes','3 meses','6 meses'],a:1},
+  {q:'¿Qué hormona se libera cuando nos enamoramos?',opts:['Cortisol','Oxitocina','Adrenalina','Melatonina'],a:1},
+  {q:'¿Cuál es el gesto romántico más valorado según encuestas?',opts:['Flores','Cartas escritas','Sorpresas','Chocolates'],a:1},
+  {q:'¿Cuántos meses dura la "fase del enamoramiento" en promedio?',opts:['3 meses','6 meses','12 meses','18 meses'],a:2},
+  {q:'¿Qué animal tiene pareja de por vida al igual que los humanos?',opts:['León','Cisne','Perro','Gato'],a:1},
+  {q:'¿Cuál es el día con más citas románticas en el mundo?',opts:['Año Nuevo','San Valentín','Navidad','Halloween'],a:1},
+  {q:'¿Qué hace el cerebro cuando ve a alguien atractivo?',opts:['Libera dopamina','Produce melatonina','Genera cortisol','Nada especial'],a:0},
+];
+
+const PLANES=['Cocinen juntos una nueva receta 🍳','Vean las estrellas en la noche 🌟','Hagan una sesión de fotos casera 📸','Preparen picnic en casa 🧺','Jueguen videojuegos juntos 🎮','Bailen en casa sin música 💃','Escriban sus metas de pareja 📝','Vean el amanecer juntos 🌅','Hagan una maratón de películas 🎬','Intercambien cartas escritas 💌','Cocinen pizza desde cero 🍕','Salgan a caminar sin destino 🚶','Cuéntense sus sueños raros 😴','Hagan una lista de viajes soñados ✈️','Practiquen un nuevo hobby juntos 🎨'];
+
+const VERDADES=['¿Cuál es tu momento favorito que hemos vivido juntos?','¿Qué te gustó de mí desde el primer día?','¿Cuál es tu mayor miedo en esta relación?','¿Qué cosa mía te hace reír siempre?','¿Cuál es el detalle más romántico que te he hecho?','¿En qué momento supiste que eras mío/a?','¿Qué es lo que más admiras de mí?','¿Qué canción te recuerda a nosotros?','¿Cuál es el lugar donde más quisieras ir conmigo?','¿Qué secreto mío ya conoces?'];
+const RETOS=['Dale 10 besos en la mejilla','Dile 3 cosas que amas de su cuerpo','Imita cómo camina tu pareja','Cántale una estrofa de su canción favorita','Hazle un masaje de 5 minutos','Escríbele un mensaje de amor en 60 segundos','Dile lo que más te gusta de su personalidad','Hazle cosquillas sin parar por 30 segundos','Cuéntale una historia divertida de tu infancia','Dibuja su cara en 1 minuto'];
+const QMP=['...olvidar un aniversario?','...comer la comida del otro sin pedir?','...quedarse dormido en una cita?','...decir te amo primero?','...llorar viendo una película?','...elegir el restaurante?','...pedir perdón primero?','...bailar en público?','...hacer una locura espontánea?','...cocinar algo nuevo?'];
+const COMPAT_QS=[
+  {q:'¿Qué prefieres para el fin de semana?',opts:['Quedarnos en casa','Salir a explorar','Un poco de cada cosa','Depende del humor']},
+  {q:'¿Cuál es tu forma favorita de mostrar cariño?',opts:['Palabras bonitas','Abrazos y besos','Regalos sorpresa','Hacer cosas por el otro']},
+  {q:'¿Cómo prefieres resolver una discusión?',opts:['Hablarlo de inmediato','Tomarse tiempo y luego hablar','Con humor','Con un abrazo']},
+  {q:'¿Qué tipo de películas prefieres ver juntos?',opts:['Comedia','Romance','Acción','Terror']},
+  {q:'¿Cuál es el plan ideal para un aniversario?',opts:['Cena romántica','Viaje sorpresa','Día en casa especial','Actividad nueva']},
+];
+const DADO_ACTS=['Darse un beso de 30 segundos 💋','Un masaje de cuello de 5 minutos 💆','Decirse 5 cosas que se aman ❤️','Bailar juntos la próxima canción 💃','El otro elige qué ver esta noche 🎬','Preparar algo rico para los dos 🍫','Un abrazo de oso por 1 minuto 🤗','Decirse sus apodos secretos 🥰','El otro manda un meme de amor 📱','Compartir un recuerdo favorito juntos 🌟'];
+
+let triviaIdx=0, triviaScore=0, triviaTotal=0, triviaAnswered=false;
+let compatAnswers=[], compatQ=0;
+
+function openGame(game){
+  const modal=document.getElementById('game-modal');
+  const title=document.getElementById('modal-title');
+  const sub=document.getElementById('modal-sub');
+  const content=document.getElementById('modal-content');
+  modal.classList.add('open');
+
+  if(game==='trivia'){
+    title.textContent='🧠 Trivia de Pareja';
+    sub.textContent='¿Cuánto saben sobre el amor?';
+    triviaIdx=0; triviaScore=0; triviaTotal=TRIVIA_QS.length; triviaAnswered=false;
+    renderTrivia();
+  } else if(game==='ruleta'){
+    title.textContent='🎡 Ruleta de Planes';
+    sub.textContent='Gira y descubran qué hacer hoy';
+    content.innerHTML=`<div style="text-align:center">
+      <div id="ruleta-result" class="ruleta-result" style="margin-bottom:20px;min-height:50px;font-size:18px;color:var(--lavender2)">Presiona girar...</div>
+      <button class="btn-primary-sm" onclick="spinRuleta()">🎡 Girar</button>
+    </div>`;
+  } else if(game==='vor'){
+    title.textContent='🎭 Verdad o Reto';
+    sub.textContent='¡Elijan su destino!';
+    content.innerHTML=`<div class="vor-btns">
+      <button class="vor-btn vor-verdad" onclick="pickVOR('verdad')">💬 Verdad</button>
+      <button class="vor-btn vor-reto" onclick="pickVOR('reto')">🎯 Reto</button>
+    </div><div class="vor-result" id="vor-result">Elige verdad o reto</div>
+    <div style="text-align:center;margin-top:14px"><button class="btn-sec" onclick="pickVOR(document.getElementById('vor-result').dataset.type||'verdad')">Otra 🔄</button></div>`;
+  } else if(game==='qmp'){
+    title.textContent='🤔 ¿Quién más probable?';
+    sub.textContent='Voten y descubran la verdad';
+    renderQMP();
+  } else if(game==='compat'){
+    title.textContent='💞 Test de Compatibilidad';
+    sub.textContent='¿Qué tan compatibles son?';
+    compatAnswers=[]; compatQ=0;
+    renderCompat();
+  } else if(game==='dado'){
+    title.textContent='🎲 Dado de Actividades';
+    sub.textContent='Lanza y hagan lo que salga';
+    content.innerHTML=`<div class="dado-wrap"><div class="dado" id="el-dado" onclick="rollDado()">🎲</div></div>
+    <div class="dado-result" id="dado-result">Toca el dado para lanzar</div>`;
+  } else if(game==='adivina'){
+    title.textContent='🖼️ Adivina la Foto';
+    sub.textContent='¿Reconocen sus momentos?';
+    renderAdivina();
+  } else if(game==='memory'){
+    title.textContent='🃏 Memoria de Pareja';
+    sub.textContent='Encuentren las parejas — ¡sin trampa!';
+    renderMemory();
+  } else if(game==='rapido'){
+    title.textContent='⚡ ¡El más Rápido!';
+    sub.textContent='¿Quién es más rápido de los dos?';
+    renderRapido();
+  } else if(game==='categorias'){
+    title.textContent='📋 Basta de Pareja';
+    sub.textContent='¡Llenen las categorías con la letra dada!';
+    renderCategorias();
+  }
+}
+
+function closeGame(){ document.getElementById('game-modal').classList.remove('open'); }
+
+// TRIVIA
+function renderTrivia(){
+  const c=document.getElementById('modal-content');
+  if(triviaIdx>=triviaTotal){
+    c.innerHTML=`<div class="trivia-score">¡Terminaron!<br>
+    <span style="color:var(--lavender2)">${triviaScore}/${triviaTotal}</span> correctas 🎉</div>
+    <div style="text-align:center;margin-top:20px">
+      <button class="btn-primary-sm" onclick="triviaIdx=0;triviaScore=0;triviaAnswered=false;renderTrivia()">Jugar de nuevo</button>
+    </div>`;
+    return;
+  }
+  const q=TRIVIA_QS[triviaIdx];
+  c.innerHTML=`<div class="trivia-progress">Pregunta ${triviaIdx+1} de ${triviaTotal} · ✅ ${triviaScore}</div>
+  <div class="trivia-q">${q.q}</div>
+  <div class="trivia-opts">${q.opts.map((o,i)=>`<button class="trivia-opt" onclick="answerTrivia(${i})">${o}</button>`).join('')}</div>`;
+}
+function answerTrivia(i){
+  if(triviaAnswered)return;
+  triviaAnswered=true;
+  const q=TRIVIA_QS[triviaIdx];
+  const opts=document.querySelectorAll('.trivia-opt');
+  opts[q.a].classList.add('correct');
+  if(i!==q.a) opts[i].classList.add('wrong'); else triviaScore++;
+  setTimeout(()=>{triviaIdx++;triviaAnswered=false;renderTrivia();},1200);
+}
+
+// RULETA
+function spinRuleta(){
+  const r=document.getElementById('ruleta-result');
+  r.textContent='Girando...';
+  setTimeout(()=>{
+    const plan=PLANES[Math.floor(Math.random()*PLANES.length)];
+    r.textContent=plan;
+  },700);
+}
+
+// VERDAD O RETO
+function pickVOR(type){
+  const r=document.getElementById('vor-result');
+  r.dataset.type=type;
+  if(type==='verdad'){
+    r.textContent=VERDADES[Math.floor(Math.random()*VERDADES.length)];
+    r.style.borderLeft='3px solid var(--accent)';
+  } else {
+    r.textContent=RETOS[Math.floor(Math.random()*RETOS.length)];
+    r.style.borderLeft='3px solid var(--lavender)';
+  }
+}
+
+// QMP
+function renderQMP(){
+  const c=document.getElementById('modal-content');
+  const q=QMP[Math.floor(Math.random()*QMP.length)];
+  c.innerHTML=`<div class="qmp-q">¿Quién es más probable a ${q}</div>
+  <div class="qmp-opts">
+    <button class="qmp-opt" onclick="answerQMP('Antonio',this)">💙 Antonio</button>
+    <button class="qmp-opt" onclick="answerQMP('Yessica',this)">💜 Yessica</button>
+  </div>
+  <div class="qmp-result" id="qmp-result"></div>
+  <div style="text-align:center;margin-top:14px"><button class="btn-sec" onclick="renderQMP()">Otra 🔄</button></div>`;
+}
+function answerQMP(ans,btn){
+  document.querySelectorAll('.qmp-opt').forEach(b=>b.disabled=true);
+  btn.style.borderColor='var(--accent)';
+  document.getElementById('qmp-result').textContent='¡'+ans+' es más probable! 😄';
+}
+
+// COMPAT
+function renderCompat(){
+  const c=document.getElementById('modal-content');
+  if(compatQ>=COMPAT_QS.length){
+    const pct=Math.round((compatAnswers.filter((a,i)=>a===compatAnswers[i]).length/COMPAT_QS.length)*100);
+    const rand=Math.floor(Math.random()*30)+70;
+    c.innerHTML=`<div class="compat-pct">${rand}%</div>
+    <div class="compat-bar"><div class="compat-fill" style="width:${rand}%"></div></div>
+    <p style="text-align:center;color:var(--text2);font-size:14px;margin-top:10px">¡${rand>=80?'Son muy compatibles 💕':'Tienen mucho que descubrir juntos 💙'}!</p>
+    <div style="text-align:center;margin-top:16px"><button class="btn-primary-sm" onclick="compatAnswers=[];compatQ=0;renderCompat()">Repetir</button></div>`;
+    return;
+  }
+  const q=COMPAT_QS[compatQ];
+  c.innerHTML=`<div class="trivia-progress">Pregunta ${compatQ+1} de ${COMPAT_QS.length}</div>
+  <div class="compat-q">${q.q}</div>
+  <div class="compat-opts">${q.opts.map((o,i)=>`<button class="compat-opt" onclick="answerCompat(${i},this)">${o}</button>`).join('')}</div>`;
+}
+function answerCompat(i,btn){
+  document.querySelectorAll('.compat-opt').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  compatAnswers.push(i);
+  compatQ++;
+  setTimeout(renderCompat,600);
+}
+
+// DADO
+function rollDado(){
+  const dado=document.getElementById('el-dado');
+  dado.classList.add('rolling');
+  setTimeout(()=>{
+    dado.classList.remove('rolling');
+    const act=DADO_ACTS[Math.floor(Math.random()*DADO_ACTS.length)];
+    document.getElementById('dado-result').textContent=act;
+  },500);
+}
+
+// ADIVINA FOTO
+function renderAdivina(){
+  const photos=ls('ay_photos',[]);
+  const c=document.getElementById('modal-content');
+  if(photos.length<3){
+    c.innerHTML=`<div class="foto-game-area">
+      <div class="foto-placeholder-game">🖼️</div>
+      <p style="text-align:center;color:var(--text3);font-size:14px">¡Necesitan al menos 3 fotos para jugar!<br>Primero suban fotos en la galería.</p>
+    </div>`;
+    return;
+  }
+  const idx=Math.floor(Math.random()*photos.length);
+  const fake1=Math.floor(Math.random()*photos.length);
+  const fake2=Math.floor(Math.random()*photos.length);
+  const opts=[idx,fake1,fake2].sort(()=>Math.random()-.5);
+  c.innerHTML=`<div class="foto-game-area">
+    <p class="foto-hint">¿En qué número de foto está esta imagen?</p>
+    <div class="foto-placeholder-game"><img src="${photos[idx]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px"></div>
+    <div class="foto-game-opts">${opts.map((o,i)=>`<button class="foto-game-opt" onclick="checkAdivina(${o},${idx},this)">Foto #${o+1}</button>`).join('')}</div>
+  </div>`;
+}
+function checkAdivina(sel,correct,btn){
+  document.querySelectorAll('.foto-game-opt').forEach(b=>b.disabled=true);
+  if(sel===correct){btn.style.borderColor='var(--success)';btn.textContent+=' ✅';}
+  else {btn.style.borderColor='var(--danger)';btn.textContent+=' ❌';}
+  setTimeout(renderAdivina,1500);
+}
+
+// MEMORY
+let memCards=[], memFlipped=[], memMatched=[], memLock=false;
+function renderMemory(){
+  const emojis=['💙','💜','🌟','❤️','✨','🌈','🎵','🦋'];
+  const deck=[...emojis,...emojis].sort(()=>Math.random()-.5);
+  memCards=deck; memFlipped=[]; memMatched=[]; memLock=false;
+  const c=document.getElementById('modal-content');
+  c.innerHTML=`<div class="memory-grid" id="mem-grid">${deck.map((e,i)=>`<div class="mem-card hidden-card" id="mc-${i}" onclick="flipCard(${i})"><span>${e}</span></div>`).join('')}</div>
+  <div class="memory-info" id="mem-info">¡Encuentra todas las parejas!</div>`;
+}
+function flipCard(i){
+  if(memLock||memFlipped.includes(i)||memMatched.includes(i))return;
+  const el=document.getElementById('mc-'+i);
+  el.classList.remove('hidden-card');
+  memFlipped.push(i);
+  if(memFlipped.length===2){
+    memLock=true;
+    const [a,b]=memFlipped;
+    if(memCards[a]===memCards[b]){
+      memMatched.push(a,b);
+      document.getElementById('mc-'+a).classList.add('matched');
+      document.getElementById('mc-'+b).classList.add('matched');
+      memFlipped=[];memLock=false;
+      if(memMatched.length===memCards.length) document.getElementById('mem-info').textContent='🎉 ¡Lo lograron! ¡Geniales!';
+    } else {
+      setTimeout(()=>{
+        document.getElementById('mc-'+a).classList.add('hidden-card');
+        document.getElementById('mc-'+b).classList.add('hidden-card');
+        memFlipped=[];memLock=false;
+      },900);
+    }
+  }
+}
+
+// RAPIDO
+let rapidoScores={Antonio:0,Yessica:0}, rapidoActive=false, rapidoTimer=null, rapidoSeconds=30, rapidoCurrent='';
+const RAPIDO_EMOJIS=['🎯','⭐','💎','🌈','🦋','🎪','🚀','🌺','🍀','⚡'];
+function renderRapido(){
+  const c=document.getElementById('modal-content');
+  rapidoScores={Antonio:0,Yessica:0};
+  c.innerHTML=`<div class="rapido-score-wrap">
+    <div class="rapido-p"><div class="rapido-p-name">💙 Antonio</div><div class="rapido-p-score" id="rs-antonio">0</div></div>
+    <div class="rapido-p"><div class="rapido-p-name">💜 Yessica</div><div class="rapido-p-score" id="rs-yessica">0</div></div>
+  </div>
+  <div class="rapido-timer" id="rapido-timer">30</div>
+  <div class="rapido-target" id="rapido-target" onclick="tapTarget()">Toca para empezar</div>
+  <div class="rapido-info" id="rapido-info">Táctense en turnos para ver quién toca más rápido</div>
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:14px">
+    <button class="btn-primary-sm" onclick="startRapido('Antonio')">💙 Turno Antonio</button>
+    <button class="btn-primary-sm" onclick="startRapido('Yessica')" style="background:linear-gradient(135deg,var(--lavender),#9b8fd4)">💜 Turno Yessica</button>
+  </div>`;
+}
+function startRapido(user){
+  rapidoActive=true; rapidoSeconds=30;
+  rapidoCurrent=user;
+  document.getElementById('rapido-info').textContent=user+': ¡Toca lo más rápido que puedas!';
+  document.getElementById('rapido-timer').textContent=30;
+  if(rapidoTimer) clearInterval(rapidoTimer);
+  rapidoTimer=setInterval(()=>{
+    rapidoSeconds--;
+    document.getElementById('rapido-timer').textContent=rapidoSeconds;
+    if(rapidoSeconds<=0){clearInterval(rapidoTimer);rapidoActive=false;document.getElementById('rapido-info').textContent='¡Turno terminado! '+user+': '+rapidoScores[user]+' toques';}
+  },1000);
+  newRapidoTarget();
+}
+function newRapidoTarget(){ document.getElementById('rapido-target').textContent=RAPIDO_EMOJIS[Math.floor(Math.random()*RAPIDO_EMOJIS.length)]; }
+function tapTarget(){
+  if(!rapidoActive)return;
+  rapidoScores[rapidoCurrent]++;
+  document.getElementById('rs-'+rapidoCurrent.toLowerCase()).textContent=rapidoScores[rapidoCurrent];
+  newRapidoTarget();
+}
+
+// CATEGORIAS (BASTA)
+const LETTERS='ABCDEFGHIJLMNOPRS';
+const CATEG_CATS=['Nombre','Película','País','Animal','Comida','Artista','Marca','Color'];
+function renderCategorias(){
+  const letter=LETTERS[Math.floor(Math.random()*LETTERS.length)];
+  const c=document.getElementById('modal-content');
+  c.innerHTML=`<p style="font-size:13px;color:var(--text3);margin-bottom:10px">Llenen todas las categorías con la letra:</p>
+  <div class="categ-letters"><div class="categ-letter">${letter}</div></div>
+  <div class="categ-cats">${CATEG_CATS.map(cat=>`<div class="categ-cat"><label>${cat}:</label><input class="input-field" placeholder="${cat} con ${letter}..."></div>`).join('')}</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn-primary-sm" onclick="renderCategorias()">🔄 Nueva letra</button>
+    <button class="btn-sec" onclick="stopCategorias()">¡BASTA! 🛑</button>
+  </div>
+  <div id="cat-result" style="margin-top:12px;text-align:center;font-size:16px;color:var(--lavender2);display:none"></div>`;
+}
+function stopCategorias(){
+  const inputs=document.querySelectorAll('.categ-cat input');
+  let filled=0;
+  inputs.forEach(i=>{ if(i.value.trim()) filled++; });
+  document.getElementById('cat-result').style.display='block';
+  document.getElementById('cat-result').textContent=`¡BASTA! Llenaron ${filled} de ${CATEG_CATS.length} categorías 🎉`;
+}
+
+// ===== ONLINE GAMES =====
+const NUNCA_HS=['Nunca he nunca... enviado una carta de amor escrita a mano','Nunca he nunca... planeado una cita sorpresa','Nunca he nunca... llorado viendo una película romántica','Nunca he nunca... cantado una canción a alguien especial','Nunca he nunca... hecho una promesa que no cumplí','Nunca he nunca... dicho te amo primero','Nunca he nunca... cometido un acto espontáneo por amor','Nunca he nunca... tenido mariposas en el estómago al ver a alguien'];
+const EOA=[
+  {q:'¿Playa o montaña?',a:'🏖️ Playa',b:'🏔️ Montaña'},
+  {q:'¿Netflix o cine?',a:'📺 Netflix',b:'🎬 Cine'},
+  {q:'¿Pizza o sushi?',a:'🍕 Pizza',b:'🍣 Sushi'},
+  {q:'¿Madrugar o trasnochar?',a:'🌅 Madrugar',b:'🌙 Trasnochar'},
+  {q:'¿Viaje a la ciudad o al campo?',a:'🏙️ Ciudad',b:'🌿 Campo'},
+  {q:'¿Perro o gato?',a:'🐶 Perro',b:'🐱 Gato'},
+  {q:'¿Invierno o verano?',a:'❄️ Invierno',b:'☀️ Verano'},
+];
+const COMPLETA=['Te quiero porque...','Lo que más me gusta de ti es...','Juntos somos...','Mi momento favorito contigo fue...','Cuando estoy contigo siento...','El plan perfecto para nosotros sería...','Lo que más extraño de ti cuando no estás es...'];
+const PROFUNDAS=['¿Cuál ha sido el mayor aprendizaje que te ha dado esta relación?','¿Cómo te imaginas nuestro futuro en 5 años?','¿Qué es lo que más te da seguridad en nuestra relación?','¿Cuál es tu mayor sueño que quisieras cumplir conmigo?','¿Qué es lo que más valoras de nuestra conexión?'];
+const RETOS_DIA=['Mándense un audio de voz diciéndose cuánto se quieren 🎙️','Compártanse una foto que los haga pensar en el otro 📸','Busquen y envíen la canción que más los represente como pareja 🎵','Cuéntense por mensaje el mejor recuerdo que tienen juntos 💌','Propónganle un plan sorpresa para este fin de semana ✨'];
+
+function playOG(game){
+  if(game==='nunca'){
+    const msg=NUNCA_HS[Math.floor(Math.random()*NUNCA_HS.length)];
+    const r=document.getElementById('og-nunca-result');
+    r.style.display='block'; r.textContent=msg;
+    document.getElementById('og-nunca-share').style.display='flex';
+  } else if(game==='eoa'){
+    eoa_current=EOA[Math.floor(Math.random()*EOA.length)];
+    const r=document.getElementById('og-eoa-result');
+    r.style.display='block'; r.textContent=eoa_current.q;
+    const btns=document.getElementById('og-eoa-btns');
+    btns.style.display='flex';
+    document.getElementById('og-eoa-a').textContent=eoa_current.a;
+    document.getElementById('og-eoa-b').textContent=eoa_current.b;
+  } else if(game==='completa'){
+    const frase=COMPLETA[Math.floor(Math.random()*COMPLETA.length)];
+    const r=document.getElementById('og-completa-result');
+    r.style.display='block'; r.textContent=frase;
+    document.getElementById('og-completa-input').style.display='block';
+    document.getElementById('og-completa-share').style.display='flex';
+  } else if(game==='profunda'){
+    const q=PROFUNDAS[Math.floor(Math.random()*PROFUNDAS.length)];
+    const r=document.getElementById('og-profunda-result');
+    r.style.display='block'; r.textContent=q;
+    document.getElementById('og-profunda-input').style.display='block';
+    document.getElementById('og-profunda-share').style.display='flex';
+  } else if(game==='reto'){
+    const reto=RETOS_DIA[Math.floor(Math.random()*RETOS_DIA.length)];
+    const r=document.getElementById('og-reto-result');
+    r.style.display='block'; r.textContent=reto;
+    document.getElementById('og-reto-share').style.display='flex';
+  }
+}
+function chooseEOA(idx){
+  const choice=idx===0?eoa_current.a:eoa_current.b;
+  const r=document.getElementById('og-eoa-result');
+  r.textContent=`${eoa_current.q}\nTu respuesta: ${choice}`;
+  document.getElementById('og-eoa-share').style.display='flex';
+}
+function shareResult(id){
+  const text=document.getElementById(id).textContent;
+  const url=`https://wa.me/?text=${encodeURIComponent('🎮 Antonio & Yessica\n\n'+text)}`;
+  window.open(url,'_blank');
+}
+function shareCompletaResult(){
+  const frase=document.getElementById('og-completa-result').textContent;
+  const resp=document.getElementById('og-completa-input').value;
+  const text=`${frase}\n${resp||'(sin respuesta aún)'}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent('✍️ Antonio & Yessica\n\n'+text)}`,'_blank');
+}
+function shareProfundaResult(){
+  const q=document.getElementById('og-profunda-result').textContent;
+  const resp=document.getElementById('og-profunda-input').value;
+  const text=`${q}\nMi respuesta: ${resp||'(sin respuesta aún)'}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent('💭 Antonio & Yessica\n\n'+text)}`,'_blank');
+}
+</script>
+</body>
+</html>
